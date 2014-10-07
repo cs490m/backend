@@ -1,0 +1,10 @@
+{
+    "name": "cse490m",
+    "description": "abstract testing app",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "4.9.5",
+        "ejs" : "~0.8.5",
+        "morgan": "~1.0.0"
+    }
+}

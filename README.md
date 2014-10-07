@@ -1,7 +1,11 @@
 cse490m
-=======
-I'm not sure where to put this code so it's here.
+=========
 
+To run the server:
+
+    > node server.js
+
+=========
 View page:
 
-http://cse490m2.cs.washington.edu/
+http://cse490m2.cs.washington.edu:8080/
