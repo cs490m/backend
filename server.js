@@ -17,6 +17,10 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 //routes ================================================================
 require('./app/routes.js')(app);
 
+
 //launch ================================================================
+
+app.use(express.static(__dirname + '/views'));
+
 app.listen(port);
 console.log('Running on port ' + port);
