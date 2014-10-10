@@ -20,7 +20,7 @@ require('./app/routes.js')(app);
 
 //launch ================================================================
 
-app.use(express.static(__dirname + '/views'));
+app.use(express.static('/var/www/html'));
 
 app.listen(port);
 console.log('Running on port ' + port);

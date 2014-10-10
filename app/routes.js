@@ -8,7 +8,7 @@ module.exports = function(app) {
      * Show the homepage
      */
     app.get('/', function(req, res) {
-        res.render('index.ejs')
+        res.render('/var/www/html/index.ejs')
     });
 
 };
