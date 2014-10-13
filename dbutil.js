@@ -12,7 +12,7 @@ var db = mongo.db("mongodb://localhost:27017/sensors", { native_parser:true });
 
   callback: A function to call to deliver the results as an array of objects.
 */
-function getData (req, callback) {
+function getUserData (req, callback) {
   db.collection('datalist').find({
     'userId': req.userId,
     'date_time': {

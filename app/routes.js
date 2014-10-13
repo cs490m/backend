@@ -4,17 +4,18 @@
 
 module.exports = function(app, router) {
 
+    require('dbutil.js');
     /**
      * Show the homepage
      */
-    router.get('/', function(req, res) {
+    app.get('/', function(req, res) {
         res.render('/var/www/html/index.ejs')
     });
 
 
     // post data on user. For now we assume the userid is unique and persitant to each user.
     //
-    router.route('/get_users').post(function(req, res) {
+    router.route('/user_data').post(function(req, res) {
 
         if (!req.body.hasOwnProperty('userId') ||
             !req.body.hasOwnProperty('timestamp') ||
@@ -24,7 +25,27 @@ module.exports = function(app, router) {
             res.statusCode = 400;
             return res.send('Error 400 : missing request data');
         }
-        //myDb.add_data(req.body.userId, req.body.timestamp, req.body.sensorData);
+
+        saveData(req.body, function(err) {
+            if (err) {
+                res.statusCode = 500;
+                res.send('Error 500: Failed to add to database');
+            } else {
+                res.send(200);
+            }
+        });
+
+    });
+
+    router.route('/get_user_data/:userId/:start/:end').get(function(req, res) {
+        var data = getUserData(req.params, function(items) {
+            if (!items) {
+                res.statusCode = 500;
+                res.send('Error 500: Failed to retrieve from database')
+            } else {
+                res.send(items)
+            }
+        });
     });
 
     app.use('/api', router);
