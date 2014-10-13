@@ -5,6 +5,8 @@
     "dependencies": {
         "express": "4.9.5",
         "ejs" : "~0.8.5",
-        "morgan": "~1.0.0"
+        "morgan": "~1.0.0",
+        "mongodb": "*",
+        "mongoskin": "*"
     }
 }
