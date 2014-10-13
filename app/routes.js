@@ -25,7 +25,7 @@ module.exports = function(app, router) {
             res.statusCode = 400;
             return res.send('Error 400 : missing request data');
         }
-
+        console.log('Attempted GET' + req.body);
         saveData(req.body, function(err) {
             if (err) {
                 res.statusCode = 500;
@@ -38,6 +38,8 @@ module.exports = function(app, router) {
     });
 
     router.route('/get_user_data/:userId/:start/:end').get(function(req, res) {
+        console.log('Attempted PUSH' + req.body);
+
         var data = getUserData(req.params, function(items) {
             if (!items) {
                 res.statusCode = 500;
