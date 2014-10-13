@@ -19,16 +19,12 @@ module.exports = function(app, router) {
 
         console.log('Attempted POST' + req.body);
 
-        if (!req.body.hasOwnProperty('userId') ||
-            !req.body.hasOwnProperty('timestamp') ||
-            !req.body.hasOwnProperty('sensorData')) {
-
+        if (!req.body.hasOwnProperty('data')) {
             // log bad request
             res.statusCode = 400;
             return res.send('Error 400 : missing request data');
         }
-        console.log('Attempted POST' + req.body);
-        saveData(req.body, function(err) {
+        saveData(req.body.data, function(err) {
             if (err) {
                 res.statusCode = 500;
                 res.send('Error 500: Failed to add to database');
@@ -40,7 +36,7 @@ module.exports = function(app, router) {
     });
 
     router.route('/get_user_data/:userId/:start/:end').get(function(req, res) {
-        console.log('Attempted GET' + req.body);
+        console.log('Attempted GET' + req.params);
 
         var data = getUserData(req.params, function(items) {
             if (!items) {
