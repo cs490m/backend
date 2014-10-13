@@ -15,7 +15,7 @@ module.exports = function(app, router) {
 
     // post data on user. For now we assume the userid is unique and persitant to each user.
     //
-    router.route('/user_data').post(function(req, res) {
+    router.route('/api/user_data').post(function(req, res) {
 
         console.log('Attempted POST' + req.body);
 
