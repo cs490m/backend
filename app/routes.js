@@ -4,12 +4,12 @@
 
 module.exports = function(app, router) {
 
-    require('dbutil.js');
+    require('../dbutil.js');
     /**
      * Show the homepage
      */
     app.get('/', function(req, res) {
-        res.render('/var/www/html/index.ejs')
+        res.render('../views/index.ejs')
     });
 
 
