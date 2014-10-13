@@ -15,7 +15,7 @@ var db = mongo.db("mongodb://localhost:27017/sensors", { native_parser:true });
 function getUserData (req, callback) {
   db.collection('datalist').find({
     'userId': req.userId,
-    'date_time': {
+    'time': {
       '$gte': req.start,
       '$lt': req.end
     }
