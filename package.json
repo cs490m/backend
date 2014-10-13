@@ -3,8 +3,13 @@
     "description": "abstract testing app",
     "version": "0.0.1",
     "dependencies": {
-        "express": "4.9.5",
+        "body-parser": "~1.0.1",
         "ejs" : "~0.8.5",
+        "express": "4.9.5",
         "morgan": "~1.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cs490m/backend"
     }
 }
