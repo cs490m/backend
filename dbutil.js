@@ -19,9 +19,7 @@ function getUserData (req, callback) {
       '$gte': req.start,
       '$lt': req.end
     }
-  }).toArray(function (err, items) {
-    callback(items);
-  });
+  }).toArray(callback);
 };
 
 
@@ -30,11 +28,5 @@ function getUserData (req, callback) {
   callback: A function to call to deliver the success/failure of the save.
 */
 function saveData (data, callback) {
-  db.collection('datalist').insert(data, function(err, result) {
-    if (err === null) {
-      callback({ msg: '' });
-    } else {
-      callback({ msg: err });
-    }
-  });
+  db.collection('datalist').insert(data, callback);
 }

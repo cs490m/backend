@@ -10,6 +10,11 @@
         "mongodb": "*",
         "mongoskin": "*"
     },
+    "devDependencies": {
+        "mocha": "*",
+        "chai": "*",
+        "supertest": "*"
+    },
     "repository": {
         "type": "git",
         "url": "git://github.com/cs490m/backend"

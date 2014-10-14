@@ -15,7 +15,7 @@ module.exports = function(app, router) {
 
     // post data on user. For now we assume the userid is unique and persitant to each user.
     //
-    router.route('/api/user_data').post(function(req, res) {
+    router.route('/user_data').post(function(req, res) {
 
         console.log('Attempted POST' + req.body);
 
@@ -24,7 +24,7 @@ module.exports = function(app, router) {
             res.statusCode = 400;
             return res.send('Error 400 : missing request data');
         }
-        saveData(req.body.data, function(err) {
+        saveData(req.body.data, function(err, results) {
             if (err) {
                 res.statusCode = 500;
                 res.send('Error 500: Failed to add to database');
@@ -35,15 +35,15 @@ module.exports = function(app, router) {
 
     });
 
-    router.route('/get_user_data/:userId/:start/:end').get(function(req, res) {
+    router.route('/get_user_data/:id/:start/:end').get(function(req, res) {
         console.log('Attempted GET' + req.params);
 
-        var data = getUserData(req.params, function(items) {
-            if (!items) {
+        var data = getUserData(req.params, function(err, results) {
+            if (err) {
                 res.statusCode = 500;
                 res.send('Error 500: Failed to retrieve from database')
             } else {
-                res.send(items)
+                res.send(results)
             }
         });
     });
