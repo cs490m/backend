@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var mongo = require('mongoskin');
 var db = mongo.db("mongodb://localhost:27017/sensors", { native_parser:true });
 

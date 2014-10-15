@@ -26,7 +26,7 @@ router.route('/user_data/:id/:start/:end').get(function(req, res) {
             '$lt': req.params.end
         }
     }).toArray(function(err, result) {
-        res.send((err === null) ? res.json(result) : { msg:'error: ' + err });
+        res.send((err === null) ? res.send(result) : { msg:'error: ' + err });
     });
 });
 
