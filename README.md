@@ -1,9 +1,18 @@
 cse490m
 =========
 
+You should have the database running.
+
 To run the server:
 
-    > node server.js
+    npm start
+
+To run the tests:
+   # start the server
+   npm start
+
+   # run the tests
+   npm test
 
 =========
 View page:

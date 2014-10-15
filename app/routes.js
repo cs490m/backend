@@ -4,7 +4,7 @@
 
 module.exports = function(app, router) {
 
-    require('../dbutil.js');
+    var dbUtil = require('../dbutil.js');
     /**
      * Show the homepage
      */
@@ -24,7 +24,7 @@ module.exports = function(app, router) {
             res.statusCode = 400;
             return res.send('Error 400 : missing request data');
         }
-        saveData(req.body.data, function(err, results) {
+        dbUtil.saveData(req.body.data, function(err, results) {
             if (err) {
                 res.statusCode = 500;
                 res.send('Error 500: Failed to add to database');

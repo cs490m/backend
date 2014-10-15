@@ -1,22 +1,28 @@
 {
-    "name": "cse490m",
-    "description": "abstract testing app",
-    "version": "0.0.1",
-    "dependencies": {
-        "body-parser": "~1.0.1",
-        "ejs" : "~0.8.5",
-        "express": "4.9.5",
-        "morgan": "~1.0.0",
-        "mongodb": "*",
-        "mongoskin": "*"
-    },
-    "devDependencies": {
-        "mocha": "*",
-        "chai": "*",
-        "supertest": "*"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/cs490m/backend"
-    }
+  "name": "temp1",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "mocha ./tests/apiTest.js"
+  },
+  "dependencies": {
+    "express": "4.9.5",
+    "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "morgan": "~1.3.0",
+    "debug": "~2.0.0",
+    "ejs" : "~0.8.5",
+    "mongodb": "*",
+    "mongoskin": "*"
+  },
+  "devDependencies": {
+      "mocha": "*",
+      "chai": "*",
+      "supertest": "*"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git://github.com/cs490m/backend"
+  }
 }
