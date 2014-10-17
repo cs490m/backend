@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="img/deadmau5.png">
     
     <title>cse490m Sensor Data</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="../public/stylesheets/app.css">
+    <link rel="stylesheet" href="stylesheets/app.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -67,6 +67,9 @@
             </div>
           </div>
         </form>
+        <div class="alert alert-info col-sm-offset-2 col-sm-10" ng-show="sendingRequest" role="alert">{{ postRequest }}</div>
+        <div class="alert alert-success col-sm-offset-2 col-sm-10" ng-show="serverSuccess" role="alert">Success. Server response: {{ response }}</div>
+        <div class="alert alert-danger col-sm-offset-2 col-sm-10" ng-show="serverError" role="alert">Error. Server response: {{ response }}</div>
       </div>
 
       <div id="viewData" ng-hide="addData" >
@@ -102,6 +105,8 @@
             </div>
           </div>
         </form>
+
+        <div class="alert alert-info col-sm-offset-2 col-sm-10" ng-show="showGetInfo" role="alert">{{ getRequest }}</div>
           
         <table class="table" ng-show="results.length > 0">
           <tr>
@@ -123,7 +128,7 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
-    <script src="../public/javascripts/app.js"></script>
+    <script src="javascripts/app.js"></script>
   </body>
 </html>
 
