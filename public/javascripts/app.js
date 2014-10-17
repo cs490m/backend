@@ -4,7 +4,7 @@ var app = angular.module('App',[]);
   
 app.controller('MainController', ['$scope', '$location', '$timeout', '$http', function($scope, $location, $timeout, $http) {
 
-    var host = "http://localhost:8080"
+    var host = "http://cse490m2.cs.washington.edu:8080"
     var path = "/api/user_data";
     var url = host + path;
     $location.path("/view_data");
