@@ -6,3 +6,8 @@ h1 {
 #resetButton {
     margin-left: 20px;
 }
+
+#navBar {
+	margin-bottom:20px;
+	padding-left: 10%;
+}

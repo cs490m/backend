@@ -12,7 +12,7 @@
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="../public/stylesheets/app.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -28,30 +28,71 @@
       <div class="header">
         <h1>cse490m Sensor Data</h1>
       </div>
-      
+
+      <!-- Nav tabs -->
+      <ul id="navBar" class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#view_data" role="tab" data-toggle="tab">View Data</a></li>
+        <li><a href="#add_data" role="tab" data-toggle="tab">Add Data</a></li>
+      </ul>
+
+      <div ng-show="addData">
         <form class="form-horizontal" role="form">
           <div class="form-group">
-            <label for="userId" class="col-sm-2 control-label">UserId</label>
+            <label class="col-sm-2 control-label">User Id</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail3" placeholder="UserId (leave blank for all)">
+              <input ng-model="addId" type="text" class="form-control" placeholder="User Id (required)">
             </div>
           </div>
           <div class="form-group">
-            <label for="sensorType" class="col-sm-2 control-label">Sensor Type</label>
+            <label class="col-sm-2 control-label">Sensor Type</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="Sensor Type (leave blank for all)">
+              <input ng-model="addType" type="text" class="form-control" placeholder="Sensor Type (required)">
             </div>
           </div>
           <div class="form-group">
-            <label for="startTime" class="col-sm-2 control-label">From</label>
+            <label class="col-sm-2 control-label">Time</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="The beginning of time">
+              <input ng-model="addTime" type="text" class="form-control" placeholder="Timestamp (required)">
             </div>
           </div>
           <div class="form-group">
-            <label for="endTime" class="col-sm-2 control-label">To</label>
-            <div cl\ss="col-sm-10">
-              <input type="password" class="form-control" id="inputPassword3" placeholder="The end of time">
+            <label class="col-sm-2 control-label">Value</label>
+            <div class="col-sm-10">
+              <input ng-model="addValue" type="text" class="form-control" placeholder="Value (required)">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button ng-disabled="disableAddDataButton()" ng-click="submitData()" type="submit" class="btn btn-default" id="searchButton">Add Data</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="viewData" ng-hide="addData" >
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">User Id</label>
+            <div class="col-sm-10">
+              <input ng-model="getId" type="text" class="form-control" placeholder="User Id (leave blank for all)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Sensor Type</label>
+            <div class="col-sm-10">
+              <input ng-model="getType" type="text" class="form-control" placeholder="Sensor Type (leave blank for all)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">From</label>
+            <div class="col-sm-10">
+              <input ng-model="getStartTime" type="text" class="form-control" placeholder="The beginning of time">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">To</label>
+            <div class="col-sm-10">
+              <input ng-model="getEndTime" type="text" class="form-control" placeholder="The end of time">
             </div>
           </div>
           <div class="form-group">
@@ -61,28 +102,28 @@
             </div>
           </div>
         </form>
-        
+          
         <table class="table" ng-show="results.length > 0">
-            <tr>
-                <th>UserId</th>
-                <th>Sensor Type</th>
-                <th>Timestamp</th>
-                <th>Value</th>
-            </tr>
-            <tr ng-repeat="entry in results">
-                <td>{{ entry.uid }}</td>
-                <td>{{ entry.type }}</td>
-                <td>{{ entry.timestamp }}</td>
-                <td>{{ entry.value }}</td>
-            </tr>
+          <tr>
+            <th>UserId</th>
+            <th>Sensor Type</th>
+            <th>Timestamp</th>
+            <th>Value</th>
+          </tr>
+          <tr ng-repeat="entry in results">
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.type }}</td>
+            <td>{{ entry.time }}</td>
+            <td>{{ entry.value }}</td>
+          </tr>
         </table>
-
+      </div> <!-- viewData -->
     </div><!-- container -->
     
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
-    <script src="/javascripts/app.js"></script>
+    <script src="../public/javascripts/app.js"></script>
   </body>
 </html>
 
