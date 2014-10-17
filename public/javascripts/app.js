@@ -27,7 +27,7 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
         sensorData.value = $scope.addValue;
         console.log("Submitting request for data : ");
         console.log(sensorData);
-        $scope.postRequest = "Sending POST path : " + path + " body: " + JSON.stringify([sensorData]);
+        $scope.postRequest = "POST :  " + url + "  " + JSON.stringify([sensorData]);
         $scope.sendingRequest = true;
         $http({
             method: "POST",
