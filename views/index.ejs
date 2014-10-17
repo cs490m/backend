@@ -31,8 +31,9 @@
 
       <!-- Nav tabs -->
       <ul id="navBar" class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#view_data" role="tab" data-toggle="tab">View Data</a></li>
-        <li><a href="#add_data" role="tab" data-toggle="tab">Add Data</a></li>
+        <li id="viewDataTab"><a href="#view_data" role="tab" data-toggle="tab">View Data</a></li>
+        <li id="addDataTab"><a href="#add_data" role="tab" data-toggle="tab">Add Data</a></li>
+        <li id="showAPITab"><a href="#api" role="tab" data-toggle="tab">API</a></li>
       </ul>
 
       <div ng-show="addData">
@@ -72,7 +73,7 @@
         <div class="alert alert-danger col-sm-offset-2 col-sm-10" ng-show="serverError" role="alert">Error. Server response: {{ response }}</div>
       </div>
 
-      <div id="viewData" ng-hide="addData" >
+      <div id="viewData" ng-show="viewData" >
         <form class="form-horizontal" role="form">
           <div class="form-group">
             <label class="col-sm-2 control-label">User Id</label>
@@ -123,6 +124,56 @@
           </tr>
         </table>
       </div> <!-- viewData -->
+
+      <div ng-show="showAPI" class="col-sm-offset-1 col-sm-10">
+
+        <div class="panel panel-info">
+          <div class="panel-heading">Adding Data</div>
+
+          <table class="table">
+            <tr>
+              <th class="col-sm-3">Request Type</th>
+              <td>POST</td>
+            <tr>
+              <th>Path</th>
+              <td>/api/user_data</td>
+            </tr>
+            <tr>
+              <th>Request Body</th>
+              <td>An array of tuples, each of which must contain: id, time, type & value</td>
+            </tr>
+            <tr>
+              <th>Example Body</th>
+              <td>[{"id":"test","type":"gps","time":123,"value":"123"},{"id":"test","type":"gps","time":456,"value":"345"}]</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="panel panel-info">
+          <div class="panel-heading">Querying Data</div>
+
+          <table class="table">
+            <tr>
+              <th class="col-sm-3">Request Type</th>
+              <td>GET</td>
+            <tr>
+              <th>Path</th>
+              <td>/api/user_data</td>
+            </tr>
+            <tr>
+              <th>Params</th>
+              <td>id, type, start (start time inclusive), end (end time exclusive)</td>
+            </tr>
+            <tr>
+              <th>Example Request</th>
+              <td>/api/user_data&id=test&start=0&end=500&type=gps</td>
+            </tr>
+          </table>
+        </div>
+
+
+      </div><!-- showAPI -->
+
     </div><!-- container -->
     
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

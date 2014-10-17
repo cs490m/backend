@@ -7,11 +7,28 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
     var host = "http://cse490m2.cs.washington.edu:8080"
     var path = "/api/user_data";
     var url = host + path;
-    $location.path("/view_data");
+    if ($location.path() != '/add_data' && $location.path() != '/api')
+        $location.path("/view_data");
+
+    var updateView = function() {
+        $('#addDataTab').removeClass('active');
+        $('#viewDataTab').removeClass('active');
+        $('#showAPITab').removeClass('active');
+        $scope.addData = $location.path() == '/add_data';
+        $scope.viewData = $location.path() == '/view_data';
+        $scope.showAPI = $location.path() == '/api';
+        if ($scope.addData)
+            $('#addDataTab').addClass('active');
+        if ($scope.viewData)
+            $('#viewDataTab').addClass('active');
+        if ($scope.showAPI)
+            $('#showAPITab').addClass('active');
+    }
 
     $scope.$on('$locationChangeStart', function() {
-        $scope.addData = $location.path() == '/add_data';
+        updateView();
     });
+    updateView();
 
     var exists = function(x) {
         return x != null && x != "";

@@ -59,7 +59,7 @@ router.route('/user_data').get(function(req, res) {
     if (req.query.start != null)
         query.time["$gte"] = parseInt(req.query.start);
     if (req.query.end != null)
-        query.time["$lte"] = parseInt(req.query.end);
+        query.time["$lt"] = parseInt(req.query.end);
 
     console.log("Performing query : " + JSON.stringify(query));
 
