@@ -10,24 +10,30 @@ router.route('/user_data').post(function(req, res) {
     var result = {};
     result.received = req.body.length;
     result.inserted = 0;
+    var status;
     for (var i = 0; i < result.received; i++) {
         var tuple = req.body[i];
         console.log(tuple);
         if (tuple.id != null && tuple.type != null && tuple.time != null) {
             tuple.time = parseInt(tuple.time); // important so we can do range queries on time
             result.inserted++;
-            db.collection('datalist').insert(tuple, function(err, result) {
-                if (err != null) {
-                    console.log(err);
-                    res.status(500).send({ error: 'Internal database error. Please try again later.' });
-                } else {
-                    result.msg = "received " + result.received + ", inserted " + result.inserted;
-                    res.send(result);
-                }
-            });
+            req.body[i] = tuple;
         } else {
-            res.status(400).send({error: 'Expected an id, type, and time.'});
+            status = 400;
         }
+    }
+    if (!status) {
+        db.collection('datalist').insert(res.body, function(err, result) {
+            if (err != null) {
+                console.log(err);
+                res.status(500).send({ error: 'Internal database error. Please try again later.' });
+            } else {
+                result.msg = "received " + result.received + ", inserted " + result.inserted;
+                res.send(result);
+            }
+        });
+    } else {
+        res.status(400).send({error: 'Expected an id, type, and time.'});
     }
 });
 
