@@ -1,10 +1,11 @@
 'use strict';
 
 var app = angular.module('App',[]);
-  
+
 app.controller('MainController', ['$scope', '$location', '$timeout', '$http', function($scope, $location, $timeout, $http) {
 
-    var host = "http://cse490m2.cs.washington.edu:8080"
+    //var host = "http://cse490m2.cs.washington.edu:8080"
+    var host = "http://localhost:8080"
     var path = "/api/user_data";
     var url = host + path;
     if ($location.path() != '/add_data' && $location.path() != '/api')
@@ -33,7 +34,7 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
     var exists = function(x) {
         return x != null && x != "";
     };
-    
+
     $scope.submitData = function() {
         $scope.serverSuccess = false;
         $scope.serverError = false;
@@ -55,7 +56,7 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
             console.log(data);
             $scope.response = data;
             $scope.serverSuccess = true;
-        }).error(function(){
+        }).error(function(data){
             console.log("fail..");
             console.log(data);
             $scope.response = data;
@@ -86,7 +87,7 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
             console.log("fail..");
         })
     };
-    
+
     $scope.clearResults = function() {
         $scope.results = [];
         $scope.showGetInfo = false;
