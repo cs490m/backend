@@ -5,13 +5,12 @@ var router = express.Router();
  * post data on user. For now we assume the userid is unique and persitant to each user.
  */
 router.route('/user_data').post(function(req, res) {
-    //console.log(req.body);
     var db = req.db;
     var result = {};
     result.received = req.body.length;
     result.inserted = 0;
     var status;
-    for (var i = 0; i < result.received; i++) {
+    for (i = 0; i < result.received; i++) {
         if (req.body[i].id != null && req.body[i].type != null && req.body[i].time != null) {
             req.body[i].time = parseInt(req.body[i].time); // important so we can do range queries on time
             result.inserted++;
@@ -22,7 +21,7 @@ router.route('/user_data').post(function(req, res) {
     if (!status) {
         db.collection('datalist').insert(req.body, function(err, result) {
             if (err != null) {
-                console.log(err);
+                console.log('Error inserting data: ' + err);
                 res.status(500).send({ error: 'Internal database error. Please try again later.' });
             } else {
                 result.msg = "received " + result.received + ", inserted " + result.inserted;
@@ -39,7 +38,6 @@ router.route('/user_data').post(function(req, res) {
  */
 router.route('/user_data/:id/:start/:end').get(function(req, res) {
     var db = req.db;
-    console.log(req.params);
 
     db.collection('datalist').find({
         'id': req.params.id,
@@ -57,25 +55,40 @@ router.route('/user_data/:id/:start/:end').get(function(req, res) {
  */
 router.route('/user_data').get(function(req, res) {
     var db = req.db;
-
     var query = {};
-    if (req.query.id != null)
+    var valid = false;
+
+    // collect the request params
+    if (req.query.id != null) {
         query["id"] = req.query.id;
-    if (req.query.type != null)
+        valid = true;
+    }
+    if (req.query.type != null) {
         query["type"] = req.query.type;
-    if (req.query.start != null || req.query.end != null)
+        valid = true;
+    }
+    if (req.query.start != null || req.query.end != null) {
         query["time"] = {};
-    if (req.query.start != null)
+        valid = true;
+    }
+    if (req.query.start != null) {
         query.time["$gte"] = parseInt(req.query.start);
-    if (req.query.end != null)
+        valid = true;
+    }
+    if (req.query.end != null) {
         query.time["$lt"] = parseInt(req.query.end);
+        valid = true;
+    }
 
-    console.log("Performing query : " + JSON.stringify(query));
+    if (valid) {
+        console.log("Performing query : " + JSON.stringify(query));
 
-    db.collection('datalist').find(query).toArray(function(err, result) {
-        res.send((err === null) ? result : { msg:'error: ' + err });
-    });
+        db.collection('datalist').find(query).toArray(function(err, result) {
+            res.send((err === null) ? result : { msg:'error: ' + err });
+        });
+    } else {
+        res.status(400).send({error: 'Expected an id, type, or start/end time.'});
+    }
 });
-
 
 module.exports = router;
