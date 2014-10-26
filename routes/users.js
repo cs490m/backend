@@ -11,8 +11,12 @@ router.route('/user_data').post(function(req, res) {
     result.inserted = 0;
     var status;
     for (i = 0; i < result.received; i++) {
-        if (req.body[i].id != null && req.body[i].type != null && req.body[i].time != null) {
-            req.body[i].time = parseInt(req.body[i].time); // important so we can do range queries on time
+        if (req.body[i].id != null &&
+            req.body[i].type != null &&
+            req.body[i].time != null &&
+            req.body[i].value != null) {
+
+            req.body[i] = parseValues(req.body[i]);
             result.inserted++;
         } else {
             status = 400;
@@ -90,5 +94,40 @@ router.route('/user_data').get(function(req, res) {
         res.status(400).send({error: 'Expected an id, type, or start/end time.'});
     }
 });
+
+function parseValues(data) {
+    var floatTypes = [
+        'TYPE_ACCELEROMETER',
+        'TYPE_AMBIENT_TEMPERATURE',
+        'TYPE_GAME_ROTATION_VECTOR',
+        'TYPE_GEOMAGNETIC_ROTATION_VECTOR',
+        'TYPE_GRAVITY',
+        'TYPE_GYROSCOPE',
+        'TYPE_GYROSCOPE_UNCALIBRATED',
+        'TYPE_LIGHT',
+        'TYPE_LINEAR_ACCELERATION',
+        'TYPE_MAGNETIC_FIELD',
+        'TYPE_MAGNETIC_FIELD_UNCALIBRATED',
+        'TYPE_ORIENTATION',
+        'TYPE_PRESSURE',
+        'TYPE_PROXIMITY',
+        'TYPE_RELATIVE_HUMIDITY',
+        'TYPE_ROTATION_VECTOR',
+        'TYPE_SIGNIFICANT_MOTION',
+        'TYPE_STEP_COUNTER',
+        'TYPE_STEP_DETECTOR',
+        'TYPE_TEMPERATURE'
+    ];
+
+    // important so we can do range queries on time
+    data.time = parseInt(data.time);
+
+    // parse data fields
+    if (floatTypes.indexOf(data.type) != -1) {
+        data.value = data.value.map(function(item) { return parseFloat(item); });
+    }
+
+    return data;
+}
 
 module.exports = router;

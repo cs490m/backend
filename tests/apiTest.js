@@ -14,7 +14,8 @@ describe('backend api server', function() {
             .send({ data: {
                 id: userId,
                 time: '1000',
-                type: 'none'
+                type: 'none',
+                value: '66666666'
             }})
             .expect('Content-Type', /json/)
             .expect(200, done);
@@ -26,7 +27,8 @@ describe('backend api server', function() {
             {
                 id: userId,
                 time: '1000',
-                type: 'none'
+                type: 'none',
+                value: '44444444'
             }
             ])
             .expect('Content-Type', /json/)
@@ -39,17 +41,20 @@ describe('backend api server', function() {
                 {
                     id: userId,
                     time: '2000',
-                    type: 'some'
+                    type: 'super sensor',
+                    value: '11111111'
                 },
                 {
                     id: userId,
                     time: '3000',
-                    type: 'some'
+                    type: 'TYPE_ACCELEROMETER',
+                    value: [111.2222, 222.3333, 333.4444]
                 },
                 {
                     id: userId,
                     time: '4000',
-                    type: 'some'
+                    type: 'TYPE_LIGHT',
+                    value: ['111.2222', '222.3333', '333.4444']
                 },
             ])
             .expect('Content-Type', /json/)
