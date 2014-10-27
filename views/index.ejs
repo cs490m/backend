@@ -191,7 +191,7 @@
             </tr>
             <tr>
               <th>Example Function</th>
-              <td>return 23;</td>
+              <td>return data.length;</td>
             </tr>
             <tr>
               <th>Example Function</th>
@@ -207,11 +207,15 @@
             </tr>
             <tr>
               <th>Example Tuple</th>
-              <td>"id":"test","type":"gps","time":123,"value":123}</td>
+              <td>{"id":"test","type":"gps","time":123,"value":123}</td>
             </tr>
             <tr>
               <th>Note</th>
-              <td>If your query includes a function, the response is a javascript object containing the return value of your function. If there is no function, the response is an array of tuples</td>
+              <td>
+                <p>
+                If a query contains a function, the other query parameters are used first to obtain a list of tuples from the database. This list of tuples 'data' is then passed to a function with the body provided by the parameter 'queryFunc'. The response is the return value of the function
+                </p>
+              </td>
             </tr>
           </table>
         </div>
