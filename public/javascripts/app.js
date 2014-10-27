@@ -11,6 +11,22 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
     if ($location.path() != '/add_data' && $location.path() != '/api')
         $location.path("/view_data");
 
+    var exists = function(x) {
+        return x != null && x != "";
+    };
+
+    $scope.clearResults = function() {
+        console.log("clearing results");
+        $scope.showTable = false;
+        $scope.showFuncResult = false;
+        $scope.showGetAlert = false;
+        $scope.showGetError = false;
+        $scope.getId = null;
+        $scope.getType = null;
+        $scope.getStartTime = null;
+        $scope.getEndTime = null;
+    };
+
     var updateView = function() {
         $('#addDataTab').removeClass('active');
         $('#viewDataTab').removeClass('active');
@@ -29,11 +45,9 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
     $scope.$on('$locationChangeStart', function() {
         updateView();
     });
-    updateView();
 
-    var exists = function(x) {
-        return x != null && x != "";
-    };
+    updateView();
+    $scope.clearResults();
 
     $scope.submitData = function() {
         $scope.serverSuccess = false;
@@ -51,20 +65,22 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
             method: "POST",
             url: url,
             data: [sensorData]
-        }).success(function(data){
-            console.log("success, hurray. response:");
+        }).success(function(data) {
+            console.log("successfully added data, response:");
             console.log(data);
             $scope.response = data;
             $scope.serverSuccess = true;
-        }).error(function(data){
-            console.log("fail..");
-            console.log(data);
+        }).error(function(data) {
+            console.log("submit data failed");
             $scope.response = data;
             $scope.serverError = true;
         })
     };
 
     $scope.getResults = function() {
+        $scope.showTable = false;
+        $scope.showFuncResult = false;
+        $scope.showGetError = false;
         var getParams = {};
         if (exists($scope.getId))
             getParams.id = $scope.getId;
@@ -74,27 +90,29 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
             getParams.end = $scope.getEndTime;
         if (exists($scope.getType))
             getParams.type = $scope.getType;
+        if (exists($scope.getFunction))
+            getParams.queryFunc = $scope.getFunction;
         $scope.getRequest = "GET : " + path + "&" + $.param(getParams);
-        $scope.showGetInfo = true;
+        $scope.showGetAlert = true;
         $http({
             method: "GET",
             url: url,
             params: getParams
-        }).success(function(data){
-            console.log("success, hurray.");
-            $scope.results = data;
-        }).error(function(){
-            console.log("fail..");
+        }).success(function(data) {
+            console.log("successfully fetched data:");
+            if (Array.isArray(data) && data.length > 0) {
+                $scope.result = data;
+                $scope.showTable = true;
+            } else {
+                $scope.funcResult = JSON.stringify(data);
+                $scope.showFuncResult = true;
+            }
+        }).error(function(data) {
+            $scope.getError = data.error;
+            $scope.showGetError = true;
+            console.log("failed to fetch data");
+            console.log(data);
         })
-    };
-
-    $scope.clearResults = function() {
-        $scope.results = [];
-        $scope.showGetInfo = false;
-        $scope.getId = null;
-        $scope.getType = null;
-        $scope.getStartTime = null;
-        $scope.getEndTime = null;
     };
 
     $scope.disableAddDataButton = function() {

@@ -90,13 +90,19 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">From</label>
             <div class="col-sm-10">
-              <input ng-model="getStartTime" type="text" class="form-control" placeholder="The beginning of time">
+              <input ng-model="getStartTime" type="number" class="form-control" placeholder="The beginning of time">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">To</label>
             <div class="col-sm-10">
-              <input ng-model="getEndTime" type="text" class="form-control" placeholder="The end of time">
+              <input ng-model="getEndTime" type="number" class="form-control" placeholder="The end of time">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Function</label>
+            <div class="col-sm-10">
+              <input ng-model="getFunction" type="text" class="form-control" placeholder="(leave blank for no function)">
             </div>
           </div>
           <div class="form-group">
@@ -107,23 +113,34 @@
           </div>
         </form>
 
-        <div class="alert alert-info col-sm-offset-2 col-sm-10" ng-show="showGetInfo" role="alert">{{ getRequest }}</div>
-          
-        <table class="table" ng-show="results.length > 0">
+        <div class="alert alert-info col-sm-offset-2 col-sm-10" ng-show="showGetAlert" role="alert">
+          {{ getRequest }}
+        </div>
+
+        <div class="alert alert-success col-sm-offset-2 col-sm-10" ng-show="showFuncResult" role="alert">
+          {{ "Result : " + funcResult }}
+        </div>
+
+
+        <div class="alert alert-danger col-sm-offset-2 col-sm-10" ng-show="showGetError" role="alert">
+          {{ "Error : " + getError }}
+        </div>
+
+        <table class="table" ng-show="showTable">
           <tr>
             <th>UserId</th>
             <th>Sensor Type</th>
             <th>Timestamp</th>
             <th>Value</th>
           </tr>
-          <tr ng-repeat="entry in results">
+          <tr ng-repeat="entry in result">
             <td>{{ entry.id }}</td>
             <td>{{ entry.type }}</td>
             <td>{{ entry.time }}</td>
             <td>{{ entry.value }}</td>
           </tr>
         </table>
-      </div> <!-- viewData -->
+    </div> <!-- viewData -->
 
       <div ng-show="showAPI" class="col-sm-offset-1 col-sm-10">
 
@@ -144,7 +161,11 @@
             </tr>
             <tr>
               <th>Example Body</th>
-              <td>[{"id":"test","type":"gps","time":123,"value":"123"},{"id":"test","type":"gps","time":456,"value":"345"}]</td>
+              <td>[tuple, tuple, tuple, ...]</td>
+            </tr>
+            <tr>
+              <th>Example Tuple</th>
+              <td>"id":"test","type":"gps","time":123,"value":123}</td>
             </tr>
           </table>
         </div>
@@ -162,15 +183,38 @@
             </tr>
             <tr>
               <th>Params</th>
-              <td>id, type, start (start time inclusive), end (end time exclusive)</td>
+              <td>id, type, start (start time inclusive), end (end time exclusive), queryFunc</td>
             </tr>
             <tr>
               <th>Example Request</th>
               <td>/api/user_data&id=test&start=0&end=500&type=gps</td>
             </tr>
+            <tr>
+              <th>Example Function</th>
+              <td>return 23;</td>
+            </tr>
+            <tr>
+              <th>Example Function</th>
+              <td>var max = 0; for (var i = 0; i < data.length; i++) max = Math.max(max, data[i].time); return max;</td>
+            </tr>
+            <tr>
+              <th>Response (no function)</th>
+              <td>No function: [tuple, tuple, tuple]</td>
+            </tr>
+            <tr>
+              <th>Response (with function)</th>
+              <td>{"result":"return value of your function"}</td>
+            </tr>
+            <tr>
+              <th>Example Tuple</th>
+              <td>"id":"test","type":"gps","time":123,"value":123}</td>
+            </tr>
+            <tr>
+              <th>Note</th>
+              <td>If your query includes a function, the response is a javascript object containing the return value of your function. If there is no function, the response is an array of tuples</td>
+            </tr>
           </table>
         </div>
-
 
       </div><!-- showAPI -->
 

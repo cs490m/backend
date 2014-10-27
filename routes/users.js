@@ -38,23 +38,6 @@ router.route('/user_data').post(function(req, res) {
 });
 
 /**
- *  Get data on user :id, from start time :start until end time :end
- */
-router.route('/user_data/:id/:start/:end').get(function(req, res) {
-    var db = req.db;
-
-    db.collection('datalist').find({
-        'id': req.params.id,
-        'time': {
-            '$gte': req.params.start,
-            '$lt': req.params.end
-        }
-    }).toArray(function(err, result) {
-        res.send((err === null) ? result : { msg:'error: ' + err });
-    });
-});
-
-/**
  *  Get data with query string
  */
 router.route('/user_data').get(function(req, res) {
@@ -88,7 +71,26 @@ router.route('/user_data').get(function(req, res) {
         console.log("Performing query : " + JSON.stringify(query));
 
         db.collection('datalist').find(query).toArray(function(err, result) {
-            res.send((err === null) ? result : { msg:'error: ' + err });
+            if (err == null) {
+                if (req.query.queryFunc != null) {
+                    try {
+                        var data = result;
+                        var func = new Function('data', req.query.queryFunc);
+                        data = func(data);
+                        console.log(typeof data);
+                        res.send({ 'result' : data });
+                        // var func = new Function('data', 'res', req.query.queryFunc + " res.send(data);");
+                        // func(data, res);
+                    }
+                    catch (err) {
+                        console.log(err);
+                        res.send({ msg:'bad function : ' + err.message});
+                    }
+                } else
+                    res.send(result);
+            } else {
+                res.send({ msg:'error: ' + err });
+            }
         });
     } else {
         res.status(400).send({error: 'Expected an id, type, or start/end time.'});
