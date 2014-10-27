@@ -126,7 +126,7 @@ function parseValues(data) {
 
     // parse data fields
     if (floatTypes.indexOf(data.type) != -1) {
-        data.value = data.value.map(function(item) { return parseFloat(item); });
+        data.value = JSON.parse(data.value).map(function(item) { return parseFloat(item); });
     }
 
     return data;
