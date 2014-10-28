@@ -101,6 +101,7 @@ app.controller('MainController', ['$scope', '$location', '$timeout', '$http', fu
         }).success(function(data) {
             console.log("successfully fetched data:");
             console.log(data);
+            data = JSON.parse(data);
             if (Array.isArray(data) && data.length > 0) {
                 $scope.result = data;
                 $scope.showTable = true;
