@@ -203,7 +203,7 @@
             </tr>
             <tr>
               <th>Response (with function)</th>
-              <td>{"result":"return value of your function"}</td>
+              <td>"whatever your function returns"</td>
             </tr>
             <tr>
               <th>Example Tuple</th>
@@ -213,7 +213,10 @@
               <th>Note</th>
               <td>
                 <p>
-                If a query contains a function, the other query parameters are used first to obtain a list of tuples from the database. This list of tuples 'data' is then passed to a function with the body provided by the parameter 'queryFunc'. The response is the return value of the function
+                If a query contains a function, the other query parameters are used first to obtain a list of tuples from the database. This list of tuples 'data' is then passed to a function with the body provided by the parameter 'queryFunc'. The response is the return value of the function.
+                </p>
+                <p>
+                If the return value of a function is not a javascript object ({} or []), it will be stringified.
                 </p>
               </td>
             </tr>
