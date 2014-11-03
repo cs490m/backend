@@ -129,10 +129,9 @@ function parseValues(data) {
         data.value = JSON.parse(data.value);
       }
         data.value = data.value.map(function(item) { return parseFloat(item); });
-      }
     }
 
-    return data;
-}
+  return data;
+  }
 
 module.exports = router;
