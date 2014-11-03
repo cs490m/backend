@@ -14,7 +14,8 @@
     "debug": "~2.0.0",
     "ejs" : "~0.8.5",
     "mongodb": "~2.0",
-    "mongoskin": "*"
+    "mongoskin": "*",
+    "nodemailer": "*"
   },
   "devDependencies": {
       "mocha": "*",
