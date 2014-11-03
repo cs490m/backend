@@ -5,7 +5,7 @@ PID=$BASE/server.pid
 LOG=$BASE/log/server.log
 ERROR=$BASE/log/server.log
 
-COMMAND="node $BASE/bin/www"
+COMMAND="forever $BASE/bin/www"
 
 USR=user
 

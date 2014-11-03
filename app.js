@@ -3,6 +3,8 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer')
+
 
 var mongo = require('mongoskin');
 var db = mongo.db("mongodb://localhost:27017/sensors", { native_parser:true });
@@ -33,6 +35,14 @@ app.use(function(req,res,next){
     next();
 });
 
+//set up email notification
+var transport = nodemailer.createTransport('SMTP', { // [1]
+  service: "Gmail",
+  auth: {
+    user: "cse490m2@gmail.com",
+    pass: "cse490m2backend" // NOTE let's move these to a seperate file...
+  }
+})
 
 //routes ================================================================
 app.use('/', routes);
@@ -69,5 +79,18 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// this will send us emails when the system crashes.
+process.on('uncaughtException', function (er) {
+    console.error(er.stack)
+    transport.sendMail({
+      from: 'alerts@mycompany.com',
+      to: 'alert@mycompany.com',
+      subject: er.message,
+      text: er.stack
+    }, function (er) {
+       if (er) console.error(er)
+       process.exit(1)
+    })
+})
 
 module.exports = app;

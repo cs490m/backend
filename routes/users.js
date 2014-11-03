@@ -77,10 +77,9 @@ router.route('/user_data').get(function(req, res) {
                         var data = result;
                         var func = new Function('data', req.query.queryFunc);
                         data = func(data);
-                        console.log(typeof data);
-                        res.send({ 'result' : data });
-                        // var func = new Function('data', 'res', req.query.queryFunc + " res.send(data);");
-                        // func(data, res);
+                        if (typeof data != 'object')
+                            data = JSON.stringify(data);
+                        res.send(data);
                     }
                     catch (err) {
                         console.log(err);
