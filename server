@@ -2,8 +2,8 @@
 #
 BASE=/opt/server
 PID=$BASE/server.pid
-LOG=$BASE/log/server.log
-ERROR=$BASE/log/server.log
+LOG=$BASE/logs/server.log
+ERROR=$BASE/logs/server.log
 
 COMMAND="forever $BASE/bin/www"
 
