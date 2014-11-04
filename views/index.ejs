@@ -136,7 +136,7 @@
           <tr ng-repeat="entry in result">
             <td>{{ entry.id }}</td>
             <td>{{ entry.type }}</td>
-            <td>{{ entry.time }} ({{ entry.time | date:'yyyy-MM-dd HH:mm:ss Z' }})</td>
+            <td>{{ entry.time }} ({{ entry.time/1000000 | date:'yyyy-MM-dd HH:mm:ss Z' }})</td>
             <td>{{ entry.value }}</td>
           </tr>
         </table>
