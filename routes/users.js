@@ -96,6 +96,52 @@ router.route('/user_data').get(function(req, res) {
     }
 });
 
+//limit : default to 1
+//radius
+//loc
+router.route('/closest_data').get(function(req, res) {
+    var db = req.db;
+    var near = {};
+
+    var limit = (req.query.limit == null) ? 1 : parseInt(req.query.limit);
+
+    if (req.query.radius != null) {
+        near["$maxDistance"] = parseFloat(req.query.radius);
+        valid = true;
+    }
+
+    if(req.query.loc) {
+        console.log("Performing query : " + JSON.stringify(query));
+
+        near["$geometry"] = { type: "Point",  coordinates: req.query.loc }l
+        db.collection('datalist').find(
+         { location: { $near : near} }
+        ).limit(limit).toArray(function(err, result) {
+            if (err == null) {
+                if (req.query.queryFunc != null) {
+                    try {
+                        var data = result;
+                        var func = new Function('data', req.query.queryFunc);
+                        data = func(data);
+                        if (typeof data != 'object')
+                            data = JSON.stringify(data);
+                        res.send(data);
+                    }
+                    catch (err) {
+                        console.log(err);
+                        res.send({ msg:'bad function : ' + err.message});
+                    }
+                } else
+                    res.send(result);
+            } else {
+                res.send({ msg:'error: ' + err });
+            }
+        });
+    } else {
+        res.status(400).send({error: 'Expected an location'});
+    }
+});
+
 function parseValues(data) {
     var floatTypes = [
         'TYPE_ACCELEROMETER',
