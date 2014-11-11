@@ -102,6 +102,14 @@ router.route('/user_data').get(function(req, res) {
 router.route('/closest_data').get(function(req, res) {
     var db = req.db;
     var near = {};
+    var query = {};
+
+    if (req.query.start != null) {
+        query.time["$gte"] = parseInt(req.query.start);
+    }
+    if (req.query.end != null) {
+        query.time["$lt"] = parseInt(req.query.end);
+    }
 
     var limit = (req.query.limit == null) ? 1 : parseInt(req.query.limit);
 
@@ -112,11 +120,9 @@ router.route('/closest_data').get(function(req, res) {
 
     if(req.query.loc) {
         console.log("Performing query : " + JSON.stringify(query));
-
-        near["$geometry"] = { type: "Point",  coordinates: req.query.loc }l
-        db.collection('datalist').find(
-         { location: { $near : near} }
-        ).limit(limit).toArray(function(err, result) {
+        near["$geometry"] = { type: "Point",  coordinates: req.query.loc };
+        query["location"] = near;
+        db.collection('datalist').find(query).limit(limit).toArray(function(err, result) {
             if (err == null) {
                 if (req.query.queryFunc != null) {
                     try {
