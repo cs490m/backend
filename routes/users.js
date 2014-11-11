@@ -163,7 +163,8 @@ function parseValues(data) {
         'TYPE_SIGNIFICANT_MOTION',
         'TYPE_STEP_COUNTER',
         'TYPE_STEP_DETECTOR',
-        'TYPE_TEMPERATURE'
+        'TYPE_TEMPERATURE',
+        'TYPE_GPS'
     ];
 
     // important so we can do range queries on time
