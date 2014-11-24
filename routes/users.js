@@ -44,10 +44,14 @@ router.route('/user_data').get(function(req, res) {
     var db = req.db;
     var query = {};
     var valid = false;
-
     // collect the request params
     if (req.query.id != null) {
-        query["id"] = req.query.id;
+        if (req.query.id.indexOf("[") == 0) {
+            // id is an array of ids
+            query["id"] = JSON.parse(req.query.id);
+        } else {
+           query["id"] = req.query.id;
+        }
         valid = true;
     }
     if (req.query.type != null) {
@@ -68,29 +72,57 @@ router.route('/user_data').get(function(req, res) {
     }
 
     if (valid) {
-        console.log("Performing query : " + JSON.stringify(query));
+        if (Array.isArray(query["id"])) {
 
-        db.collection('datalist').find(query).toArray(function(err, result) {
-            if (err == null) {
-                if (req.query.queryFunc != null) {
-                    try {
-                        var data = result;
-                        var func = new Function('data', req.query.queryFunc);
-                        data = func(data);
-                        if (typeof data != 'object')
-                            data = JSON.stringify(data);
-                        res.send(data);
+            // multi-user query
+            query["id"] = { "$in": query["id"] };
+            console.log("Performing query : " + JSON.stringify(query));
+            db.collection('datalist').find(query).toArray(function(err, result) {
+                if (err == null) {
+                    // package up all results per user
+                    var results = {};
+                    for (data in result) {
+                        if ( !(data["id"] in results) ) {
+                            // create a new id bucket in the results
+                            results["id"] = [];
+                        }
+
+                        results["id"].push(data);
                     }
-                    catch (err) {
-                        console.log(err);
-                        res.send({ msg:'bad function : ' + err.message});
-                    }
-                } else
-                    res.send(result);
-            } else {
-                res.send({ msg:'error: ' + err });
-            }
-        });
+                    // send back the results
+                    res.send(results);
+
+                } else {
+                    res.send({ msg:'error: ' + err });
+                }
+            });
+        } else {
+
+          // single user query
+          console.log("Performing query : " + JSON.stringify(query));
+          db.collection('datalist').find(query).toArray(function(err, result) {
+              if (err == null) {
+                  if (req.query.queryFunc != null) {
+                    // support for custom query functions
+                      try {
+                          var data = result;
+                          var func = new Function('data', req.query.queryFunc);
+                          data = func(data);
+                          if (typeof data != 'object')
+                              data = JSON.stringify(data);
+                          res.send(data);
+                      }
+                      catch (err) {
+                          console.log(err);
+                          res.send({ msg:'bad function : ' + err.message});
+                      }
+                  } else
+                      res.send(result);
+              } else {
+                  res.send({ msg:'error: ' + err });
+              }
+          });
+        }
     } else {
         res.status(400).send({error: 'Expected an id, type, or start/end time.'});
     }
