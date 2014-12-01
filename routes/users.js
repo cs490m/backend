@@ -203,6 +203,8 @@ function parseValues(data) {
         'TYPE_STEP_DETECTOR',
         'TYPE_TEMPERATURE',
         'TYPE_GPS'
+        'TYPE_MIC_DATA'
+        'TYPE_MIC_DB'
     ];
 
     // important so we can do range queries on time
