@@ -202,8 +202,8 @@ function parseValues(data) {
         'TYPE_STEP_COUNTER',
         'TYPE_STEP_DETECTOR',
         'TYPE_TEMPERATURE',
-        'TYPE_GPS'
-        'TYPE_MIC_DATA'
+        'TYPE_GPS',
+        'TYPE_MIC_DATA',
         'TYPE_MIC_DB'
     ];
 
