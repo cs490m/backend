@@ -75,6 +75,7 @@ router.route('/user_data').get(function(req, res) {
         if (Array.isArray(query["id"])) {
 
             // multi-user query
+            console.log(" -- Multiuser Query IDs: " + query["id"]);
             query["id"] = { "$in": query["id"] };
             console.log("Performing query : " + JSON.stringify(query));
             db.collection('datalist').find(query).toArray(function(err, result) {
