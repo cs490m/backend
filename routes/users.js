@@ -46,6 +46,7 @@ router.route('/user_data').get(function(req, res) {
     var valid = false;
     // collect the request params
     if (req.query.id != null) {
+      console.log("id field from request: " + req.query.id);
         if (req.query.id.indexOf("[") == 0) {
             // id is an array of ids
             query["id"] = JSON.parse(req.query.id);
