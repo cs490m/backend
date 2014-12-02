@@ -89,7 +89,7 @@ router.route('/user_data').get(function(req, res) {
                             results[data["id"]] = [];
                         }
 
-                        results["id"].push(data);
+                        results[data["id"]].push(data);
                     }
                     // send back the results
                     res.send(results);
