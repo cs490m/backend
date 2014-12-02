@@ -84,6 +84,7 @@ router.route('/user_data').get(function(req, res) {
                     // package up all results per user
                     var results = {};
                     for (data in result) {
+                        console.log(data);
                         if ( !(data["id"] in results) ) {
                             // create a new id bucket in the results
                             results[data["id"]] = [];
