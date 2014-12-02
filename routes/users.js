@@ -75,6 +75,11 @@ router.route('/user_data').get(function(req, res) {
     if (valid) {
         if (Array.isArray(query["id"])) {
 
+            var results = {};
+            for each (id in query["id"]) {
+              results[id] = [];
+
+            }
             // multi-user query
             console.log(" -- Multiuser Query IDs: " + query["id"]);
             query["id"] = { "$in": query["id"] };
@@ -82,13 +87,13 @@ router.route('/user_data').get(function(req, res) {
             db.collection('datalist').find(query).toArray(function(err, result) {
                 if (err == null) {
                     // package up all results per user
-                    var results = {};
+
                     for (data in result) {
-                        console.log(data);
-                        if ( !(data["id"] in results) ) {
-                            // create a new id bucket in the results
-                            results[data["id"]] = [];
-                        }
+                        // console.log(data);
+                        // if ( !(data["id"] in results) ) {
+                        //     // create a new id bucket in the results
+                        //     results[data["id"]] = [];
+                        // }
 
                         results[data["id"]].push(data);
                     }
