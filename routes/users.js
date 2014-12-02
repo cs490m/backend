@@ -46,7 +46,6 @@ router.route('/user_data').get(function(req, res) {
     var valid = false;
     // collect the request params
     if (req.query.id != null) {
-      console.log("id field from request: " + req.query.id);
         if (req.query.id.indexOf("[") == 0) {
             // id is an array of ids
             query["id"] = JSON.parse(req.query.id);
@@ -85,15 +84,7 @@ router.route('/user_data').get(function(req, res) {
             console.log("Performing query : " + JSON.stringify(query));
             db.collection('datalist').find(query).toArray(function(err, result) {
                 if (err == null) {
-                    //console.log(result);
-                    // package up all results per user
-
                     result.forEach(function (data) {
-                        console.log("data: " + JSON.stringify(data));
-                        // if ( !(data["id"] in results) ) {
-                        //     // create a new id bucket in the results
-                        //     results[data["id"]] = [];
-                        // }
                         if (data["id"] != undefined) {
                           results[data["id"]].push(data);
                         }
