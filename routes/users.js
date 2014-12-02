@@ -85,6 +85,7 @@ router.route('/user_data').get(function(req, res) {
             console.log("Performing query : " + JSON.stringify(query));
             db.collection('datalist').find(query).toArray(function(err, result) {
                 if (err == null) {
+                    console.log(result);
                     // package up all results per user
 
                     for (data in result) {
