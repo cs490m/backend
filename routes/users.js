@@ -76,10 +76,9 @@ router.route('/user_data').get(function(req, res) {
         if (Array.isArray(query["id"])) {
 
             var results = {};
-            for each (id in query["id"]) {
+            query["id"].forEach(function(id) {
               results[id] = [];
-
-            }
+            });
             // multi-user query
             console.log(" -- Multiuser Query IDs: " + query["id"]);
             query["id"] = { "$in": query["id"] };
